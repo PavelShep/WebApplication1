@@ -11,6 +11,8 @@ namespace WebApplication1.Controllers
     [ApiController]
     public class VillaAPIController : ControllerBase 
     {
+
+        //default logger
         private readonly ILogger<VillaAPIController> _logger;
 
         public VillaAPIController(ILogger<VillaAPIController> logger) 
