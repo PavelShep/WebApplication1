@@ -113,29 +113,35 @@ namespace WebApplication1.Controllers
 
         [HttpPut("{id:int}", Name = "UpdateVilla")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)] 
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult UpdateVilla(int id, [FromBody]VillaDTO villaDTO)
         {
+          
             if (villaDTO == null || id != villaDTO.Id)
             {
                 return BadRequest();
             }
-            var villa = _db.Villas.FirstOrDefault(u => u.Id == id);
 
-            Villa model = new()
+            var existingVilla = _db.Villas.Find(id);
+            if (existingVilla == null)
             {
-                Amenity = villaDTO.Amenity,
-                Details = villaDTO.Details,
-                ImageUrl = villaDTO.ImageUrl,
-                Name = villaDTO.Name,
-                Occupancy = villaDTO.Occupancy,
-                Rate = villaDTO.Rate,
-                Sqft = villaDTO.Sqft
-            };
-            _db.Villas.Update(model);
+                return NotFound();
+            }
+
+            existingVilla.Amenity = villaDTO.Amenity;
+            existingVilla.Details = villaDTO.Details;
+            existingVilla.ImageUrl = villaDTO.ImageUrl;
+            existingVilla.Name = villaDTO.Name;
+            existingVilla.Occupancy = villaDTO.Occupancy;
+            existingVilla.Rate = villaDTO.Rate;
+            existingVilla.Sqft = villaDTO.Sqft;
+
+            _db.Villas.Update(existingVilla);
             _db.SaveChanges();
 
             return NoContent();
+
         }
 
         [HttpPatch("{id:int}", Name = "UpdatePartialVilla")]
@@ -167,17 +173,16 @@ namespace WebApplication1.Controllers
             }
 
             patchDTO.ApplyTo(villaDTO, ModelState);
-            Villa model = new()
-            {
-                Amenity = villaDTO.Amenity,
-                Details = villaDTO.Details,
-                ImageUrl = villaDTO.ImageUrl,
-                Name = villaDTO.Name,
-                Occupancy = villaDTO.Occupancy,
-                Rate = villaDTO.Rate,
-                Sqft = villaDTO.Sqft
-            };
-            _db.Villas.Update(model);
+
+            villa.Amenity = villaDTO.Amenity;
+            villa.Details = villaDTO.Details;
+            villa.ImageUrl = villaDTO.ImageUrl;
+            villa.Name = villaDTO.Name;
+            villa.Occupancy = villaDTO.Occupancy;
+            villa.Rate = villaDTO.Rate;
+            villa.Sqft = villaDTO.Sqft;
+            
+            _db.Villas.Update(villa);
             _db.SaveChanges();
             if (!ModelState.IsValid)
             {
