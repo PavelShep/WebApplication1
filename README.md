@@ -10,9 +10,10 @@ Projekt ten może być używany jako punkt wyjścia do tworzenia bardziej zaawan
 
 ## Konfiguracja
 1. **Baza danych**: Zaktualizuj ustawienia połączenia do bazy danych w pliku `appsettings.json` w sekcji `ConnectionStrings`.
-2. **Migracje**: Wykonaj migracje, aby utworzyć schemat bazy danych. W konsoli menedżera pakietów wykonaj polecenia:
+2. **Migracje**: Wykonaj migracje, aby utworzyć schemat bazy danych. Otwórz NuGet Package Manager Console w Visual Studio, a następnie wykonaj poniższe polecenia:
    ```
-   dotnet ef database update
+   Update-Database
+   
    ```
 3. **Uruchomienie**: Uruchom projekt za pomocą komendy `dotnet run` lub użyj środowiska IDE, takiego jak Visual Studio, do uruchomienia aplikacji.
 
